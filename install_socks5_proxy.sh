@@ -338,11 +338,11 @@ install_socks5() {
         # Automatic mode
         USERNAME=$(generate_username)
         PASSWORD=$(generate_password 12)
-        PORT=$(shuf -i 20000-40000 -n1)
+        PORT=$(shuf -i 1025-65000 -n1)
         
         # Ensure port is not in use
         while ss -tuln | grep -q ":$PORT "; do
-            PORT=$(shuf -i 20000-40000 -n1)
+            PORT=$(shuf -i 1025-65000 -n1)
         done
     else
         # Manual mode
@@ -547,11 +547,11 @@ install_squid() {
         # Automatic mode
         USERNAME=$(generate_username)
         PASSWORD=$(generate_password 12)
-        PORT=$(shuf -i 20000-40000 -n1)
+        PORT=$(shuf -i 1025-65000 -n1)
         
         # Ensure port is not in use
         while ss -tuln | grep -q ":$PORT "; do
-            PORT=$(shuf -i 20000-40000 -n1)
+            PORT=$(shuf -i 1025-65000 -n1)
         done
     else
         # Manual mode
