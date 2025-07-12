@@ -438,12 +438,12 @@ install_shadowsocks() {
     if [[ "$config_mode" = "1" ]]; then
         # Automatic mode
         PASSWORD=$(generate_password 16)
-        SERVER_PORT=$(shuf -i 20000-40000 -n1)
+        SERVER_PORT=$(shuf -i 10000-60000 -n1)
         METHOD="aes-256-gcm"
         
         # Ensure port is not in use
         while ss -tuln | grep -q ":$SERVER_PORT "; do
-            SERVER_PORT=$(shuf -i 20000-40000 -n1)
+            SERVER_PORT=$(shuf -i 10000-60000 -n1)
         done
     else
         # Manual mode
