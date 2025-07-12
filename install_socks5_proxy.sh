@@ -328,17 +328,18 @@ manage_firewall() {
     fi
 }
 
+# Install SOCKS5 with enhanced configuration
 install_socks5() {
     local USERNAME PASSWORD PORT
-
+    
     log "Starting SOCKS5 installation"
-
+    
     if [[ "$config_mode" = "1" ]]; then
         # Automatic mode
         USERNAME=$(generate_username)
         PASSWORD=$(generate_password 12)
         PORT=$(shuf -i 20000-40000 -n1)
-
+        
         # Ensure port is not in use
         while ss -tuln | grep -q ":$PORT "; do
             PORT=$(shuf -i 20000-40000 -n1)
@@ -350,7 +351,6 @@ install_socks5() {
         PASSWORD="$MANUAL_PASSWORD"
         PORT="$MANUAL_PORT"
     fi
-
 
     # Install packages
     install_packages dante-server curl iptables
