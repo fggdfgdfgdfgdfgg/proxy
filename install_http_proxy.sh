@@ -3,7 +3,7 @@ set -e
 
 USERNAME="giaiphapmmo79"
 PASSWORD="giaiphapmmo79"
-PORT="8888"
+PORT="9999"
 
 # Cài Squid
 apt update -y
