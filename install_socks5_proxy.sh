@@ -338,12 +338,10 @@ install_socks5() {
         # Automatic mode
         USERNAME=$(generate_username)
         PASSWORD=$(generate_password 12)
-        PORT=$(shuf -i 1025-65000 -n1)
-        
+        PORT=$(shuf -i 20000-40000 -n1)        
         # Ensure port is not in use
         while ss -tuln | grep -q ":$PORT "; do
-            PORT=$(shuf -i 1025-65000 -n1)
-        done
+            PORT=$(shuf -i 20000-40000 -n1)        done
     else
         # Manual mode
         get_manual_socks5_credentials
@@ -438,13 +436,11 @@ install_shadowsocks() {
     if [[ "$config_mode" = "1" ]]; then
         # Automatic mode
         PASSWORD=$(generate_password 16)
-        SERVER_PORT=$(shuf -i 10000-60000 -n1)
-        METHOD="aes-256-gcm"
+        SERVER_PORT=$(shuf -i 20000-40000 -n1)        METHOD="aes-256-gcm"
         
         # Ensure port is not in use
         while ss -tuln | grep -q ":$SERVER_PORT "; do
-            SERVER_PORT=$(shuf -i 10000-60000 -n1)
-        done
+            SERVER_PORT=$(shuf -i 20000-40000 -n1)        done
     else
         # Manual mode
         get_manual_shadowsocks_credentials
@@ -547,12 +543,10 @@ install_squid() {
         # Automatic mode
         USERNAME=$(generate_username)
         PASSWORD=$(generate_password 12)
-        PORT=$(shuf -i 1025-65000 -n1)
-        
+        PORT=$(shuf -i 20000-40000 -n1)        
         # Ensure port is not in use
         while ss -tuln | grep -q ":$PORT "; do
-            PORT=$(shuf -i 1025-65000 -n1)
-        done
+            PORT=$(shuf -i 20000-40000 -n1)        done
     else
         # Manual mode
         get_manual_http_credentials
