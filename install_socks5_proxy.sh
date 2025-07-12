@@ -338,11 +338,11 @@ install_socks5() {
         # Automatic mode
         USERNAME=$(generate_username)
         PASSWORD=$(generate_password 12)
-        PORT=$(shuf -i 1025-65000 -n1)
+        PORT=$(shuf -i 10252-65000 -n1)
         
         # Ensure port is not in use
         while ss -tuln | grep -q ":$PORT "; do
-            PORT=$(shuf -i 1025-65000 -n1)
+            PORT=$(shuf -i 10252-65000 -n1)
         done
     else
         # Manual mode
@@ -547,11 +547,11 @@ install_squid() {
         # Automatic mode
         USERNAME=$(generate_username)
         PASSWORD=$(generate_password 12)
-        PORT=$(shuf -i 1025-65000 -n1)
+        PORT=$(shuf -i 10252-65000 -n1)
         
         # Ensure port is not in use
         while ss -tuln | grep -q ":$PORT "; do
-            PORT=$(shuf -i 1025-65000 -n1)
+            PORT=$(shuf -i 10252-65000 -n1)
         done
     else
         # Manual mode
@@ -603,7 +603,7 @@ acl Safe_ports port 21          # ftp
 acl Safe_ports port 443         # https
 acl Safe_ports port 70          # gopher
 acl Safe_ports port 210         # wais
-acl Safe_ports port 1025-65535  # unregistered ports
+acl Safe_ports port 10252-65535  # unregistered ports
 acl Safe_ports port 280         # http-mgmt
 acl Safe_ports port 488         # gss-http
 acl Safe_ports port 591         # filemaker
