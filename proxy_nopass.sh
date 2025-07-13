@@ -6,18 +6,15 @@
 
 set -euo pipefail
 
-# Function: log
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"
 }
 
-# Function: error_exit
 error_exit() {
     log "ERROR: $1"
     exit 1
 }
 
-# Check for root
 [[ $EUID -ne 0 ]] && error_exit "Must run as root"
 
 # Detect OS
@@ -40,18 +37,27 @@ else
     error_exit "Cannot detect OS"
 fi
 
-# Get public IP
+# Get IP + interface
 PUBLIC_IP=$(curl -s https://api.ipify.org || curl -s https://icanhazip.com)
 [[ -z "$PUBLIC_IP" ]] && error_exit "Could not detect public IP"
-
-# Get default interface
 EXT_IF=$(ip route | awk '/default/ {print $5; exit}')
 
-# Install Dante SOCKS5 with no auth
+# Generate unused random port
+get_random_port() {
+    while :; do
+        port=$(shuf -i 10000-60000 -n 1)
+        if ! ss -tuln | grep -q ":$port "; then
+            echo "$port"
+            return
+        fi
+    done
+}
+
+# Install Dante SOCKS5 (no auth)
 install_socks5() {
-    PORT=1080
+    PORT=$(get_random_port)
     log "Installing SOCKS5 on port $PORT"
-    
+
     if [[ "$OS" = "debian" ]]; then
         $PKG update -y && $PKG install -y dante-server
     else
@@ -81,12 +87,13 @@ EOF
 
     systemctl restart danted
     systemctl enable danted
+
     log "SOCKS5 proxy ready: socks5://$PUBLIC_IP:$PORT"
 }
 
-# Install Squid HTTP proxy with no auth
+# Install Squid HTTP Proxy (no auth)
 install_squid() {
-    PORT=3128
+    PORT=$(get_random_port)
     log "Installing HTTP proxy on port $PORT"
 
     if [[ "$OS" = "debian" ]]; then
@@ -102,9 +109,10 @@ EOF
 
     systemctl restart squid
     systemctl enable squid
+
     log "HTTP proxy ready: http://$PUBLIC_IP:$PORT"
 }
 
-# Run installers
+# Run both
 install_socks5
 install_squid
